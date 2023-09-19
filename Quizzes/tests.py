@@ -7,4 +7,4 @@ class HomePageTest(TestCase):
     def test_home_page_status_code(self):
         # Test to ensure that the home page is accessible and returns a 200 status code
         response = self.client.get('/')
-        self.assertEqual(response.status_code, 300)
+        self.assertEqual(response.status_code, 200)
