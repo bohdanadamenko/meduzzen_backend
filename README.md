@@ -15,9 +15,18 @@ Welcome to the Meduzzen Internship Project repository. This project is a part of
 
 This project is designed to showcase the ability to build a full-stack application using Django for the backend and Vue.js for the frontend. As a part of the Meduzzen internship, this project will cover various aspects of web development, from setting up the environment to deploying the final application.
 
-## 🚀 Getting Started
+## 🚀 Running the Application
 
-*Details about setting up the project, running it locally, etc., will be added here.*
+1. **Install the required packages:**:
+   ```bash
+   pip install -r requirements.txt
+2. **Run the Django development server:**:
+    ```bash
+    ./manage.py runserver
+**Note:** Django 4.2.5, hot-reloading upon file changes is built-in, so there's no need for additional setup for this feature.
+
+## 🧪 Running Tests
+    ./manage.py test Quizzes
 
 ## 🤝 Contribution
 
