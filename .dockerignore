@@ -1,0 +1,22 @@
+# Exclude files and directories that shouldn't be included in the Docker image:
+
+# Exclude all .pyc and .pyo files
+*.pyc
+*.pyo
+
+# Exclude all __pycache__ directories
+__pycache__/
+
+# Exclude files and directories related to the virtual environment
+venv/
+*.log
+
+# Exclude files and directories related to Git
+.git/
+.gitignore
+
+# Exclude the .env file as it contains sensitive data
+.env
+
+# Exclude egg-info directories, typically related to Python packages
+*.egg-info/

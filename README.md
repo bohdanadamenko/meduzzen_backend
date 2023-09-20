@@ -25,8 +25,28 @@ This project is designed to showcase the ability to build a full-stack applicati
     ./manage.py runserver
 **Note:** Django 4.2.5, hot-reloading upon file changes is built-in, so there's no need for additional setup for this feature.
 
+## 🐳 Run with Docker 
+**Requirements**
+
+- [Docker](https://docs.docker.com/engine/install/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+**To start** Docker container, run the following command:
+
+```sh
+docker-compose up
+```
+
+Open [http://localhost:8000](http://localhost:8000) in a web browser
+
 ## 🧪 Running Tests
-    ./manage.py test Quizzes
+In your local Python environment:
+
+    ./manage.py test
+
+Inside Docker container:
+
+    docker-compose run django python manage.py test
 
 ## 🤝 Contribution
 

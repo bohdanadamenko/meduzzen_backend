@@ -6,6 +6,7 @@ __pycache__/
 *.egg
 *.venv/
 *.log
+venv/
 
 # Django
 db.sqlite3
@@ -16,3 +17,6 @@ media/
 
 # IDEs
 .vscode/
+
+#Other
+.DS_Store
