@@ -20,13 +20,41 @@ This project is designed to showcase the ability to build a full-stack applicati
 1. **Install the required packages:**:
    ```bash
    pip install -r requirements.txt
-2. **Run the Django development server:**:
+
+2. **Copy `.env.example` to `.env`:**
+   ```bash
+   cp .env.example .env
+Or rename, if you prefer.
+
+3. **Run the Django development server:**:
     ```bash
     ./manage.py runserver
 **Note:** Django 4.2.5, hot-reloading upon file changes is built-in, so there's no need for additional setup for this feature.
 
+## 🐳 Run with Docker 
+**Requirements**
+
+- [Docker](https://docs.docker.com/engine/install/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+**To start** Docker container, run the following command:
+
+```sh
+docker-compose up
+```
+
+Open [http://localhost:8000](http://localhost:8000) in a web browser
+
+**Note:** The `start.sh` script is executed within the Docker container. This script is responsible for applying any pending migrations and starting the Django application.
+
 ## 🧪 Running Tests
-    ./manage.py test Quizzes
+In your local Python environment:
+
+    ./manage.py test
+
+Inside Docker container:
+
+    docker-compose run django python manage.py test
 
 ## 🤝 Contribution
 
