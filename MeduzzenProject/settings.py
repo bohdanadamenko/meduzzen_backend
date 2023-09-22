@@ -16,7 +16,7 @@ import os
 import redis
 
 
-REDIS_HOST = 'redis'
+REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PORT = 6379
 redis_client = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=0)
 
@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_DB'),
         'USER': os.getenv('POSTGRES_USER'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': 'db',  # Docker Service Name of Postgres
+        'HOST': os.getenv('POSTGRES_HOST'),  # Docker Service Name of Postgres
         'PORT': '5432',
     }
 }
