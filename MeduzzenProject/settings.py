@@ -119,16 +119,22 @@ LOGGING = {
             'formatter': 'standard',
             'filters': [],
         },
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'warning.log'),
+            'formatter': 'standard',
+        },
     },
     'loggers': {
         logger_name: {
-            'level': 'WARNING',
+            'level': 'DEBUG',
             'propagate': True,
         } for logger_name in ('django', 'django.request', 'django.db.backends', 'django.template', 'cooking_core')
     },
     'root': {
         'level': 'DEBUG',
-        'handlers': ['console'],
+        'handlers': ['console', 'file'],
     }
 }
 

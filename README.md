@@ -45,8 +45,24 @@ docker-compose up
 
 Open [http://localhost:8000](http://localhost:8000) in a web browser
 
-**Note:** The `start.sh` script is executed within the Docker container. This script is responsible for applying any pending migrations and starting the Django application.
+**Note:** The `start.sh` script is executed within the Docker container. This script is responsible for applying any pending db **migrations** and starting the Django application.
 
+## 🗃 Database Migrations
+
+### Local:
+1. **Create Migrations:**
+   ```bash
+   ./manage.py makemigrations
+2. **Apply Migrations:**
+    ```bash
+    ./manage.py migrate
+### Docker:
+1. **Create Migrations:**
+    ```bash
+    docker-compose exec django ./manage.py makemigrations
+2. **Apply Migrations:**
+    ```bash
+    docker-compose exec django ./manage.py migrate
 ## 🧪 Running Tests
 In your local Python environment:
 
@@ -55,6 +71,12 @@ In your local Python environment:
 Inside Docker container:
 
     docker-compose run django python manage.py test
+
+## 🗄 Logging
+
+Logging is set up to output messages to the console, with a logging level of `DEBUG` for development purposes. Please refer to the `settings.py` for detailed logging configurations.
+**NOTE:** Messages of `WARNING` level and above are additionally recorded to `warning.log` located in the `/logs/` directory.
+
 
 ## 🤝 Contribution
 
