@@ -13,6 +13,9 @@ services:
     depends_on:
       - db
       - redis
+    networks:
+      - app_network
+
   db:
     image: postgres:16
     volumes:
@@ -21,13 +24,22 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+
   redis:
     image: redis:6.2-alpine
     restart: always
     volumes:
       - redis_data:/data
+    networks:
+      - app_network
 
 volumes:
-  app:
   db_data:
   redis_data:
+
+networks:
+  app_network:
