@@ -48,7 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Quizzes'
+    'rest_framework',
+    'djoser',
+    'Quizzes',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -125,16 +128,24 @@ LOGGING = {
             'filename': os.path.join(BASE_DIR, 'logs', 'warning.log'),
             'formatter': 'standard',
         },
+        'db': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'db_changes.log'),
+            'formatter': 'standard',
+        }
     },
     'loggers': {
-        logger_name: {
+        'api.views': {
+            'handlers': ['db'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+
+        'root': {
             'level': 'DEBUG',
-            'propagate': True,
-        } for logger_name in ('django', 'django.request', 'django.db.backends', 'django.template', 'cooking_core')
-    },
-    'root': {
-        'level': 'DEBUG',
-        'handlers': ['console', 'file'],
+            'handlers': ['console', 'file'],
+        }
     }
 }
 
@@ -178,3 +189,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Users Settings
+AUTH_USER_MODEL = 'Quizzes.CustomUser'
+
+# DRF
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
+}

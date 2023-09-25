@@ -17,8 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from .views import health_check
 
+from rest_framework.routers import DefaultRouter
+from api.views import UserViewSet
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
+
 urlpatterns = [
     path('', health_check, name='health_check'),
     path('admin/', admin.site.urls),
     path('quizzes/', include('Quizzes.urls')),
+    path('api/', include(router.urls)),
 ]
