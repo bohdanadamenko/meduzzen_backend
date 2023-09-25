@@ -29,7 +29,7 @@ Or rename, if you prefer.
 3. **Run the Django development server:**:
     ```bash
     ./manage.py runserver
-**Note:** Django 4.2.5, hot-reloading upon file changes is built-in, so there's no need for additional setup for this feature.
+**Note:** Django hot-reloading upon file changes is built-in, so there's no need for additional setup for this feature.
 
 ## 🐳 Run with Docker 
 **Requirements**

@@ -5,8 +5,41 @@ services:
     build: .
     command: ["bash", "start.sh"]
     volumes:
-      - .:/code
+      - .:/app
     ports:
       - "8000:8000"
     env_file:
       - .env
+    depends_on:
+      - db
+      - redis
+    networks:
+      - app_network
+
+  db:
+    image: postgres:16
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    volumes:
+      - redis_data:/data
+    networks:
+      - app_network
+
+volumes:
+  db_data:
+  redis_data:
+
+networks:
+  app_network:
