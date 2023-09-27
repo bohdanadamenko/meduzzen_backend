@@ -27,7 +27,7 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             return super().retrieve(request, *args, **kwargs)
         except Http404:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'User not found'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -38,7 +38,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 logger.info(f"User updated: {response.data}")
             return response
         except Http404:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'User not found'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -47,10 +47,12 @@ class UserViewSet(viewsets.ModelViewSet):
             instance = self.get_object()
             user_data = self.get_serializer(instance).data
             response = super().destroy(request, *args, **kwargs)
+            logger.info(f"Response status code: {response.status_code}")
             if response.status_code == status.HTTP_204_NO_CONTENT:
+                print('test')
                 logger.info(f"User deleted: {user_data}")
             return response
         except Http404:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'User not found'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
