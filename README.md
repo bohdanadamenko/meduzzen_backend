@@ -76,6 +76,12 @@ Inside Docker container:
 
 Logging is set up to output messages to the console, with a logging level of `DEBUG` for development purposes. Please refer to the `settings.py` for detailed logging configurations.
 **NOTE:** Messages of `WARNING` level and above are additionally recorded to `warning.log` located in the `/logs/` directory.
+## 🔑 Login
+## 🔑 Login
+
+## 🔑 Login / Registration
+
+Log in or register [here](http://localhost:8000/auth/login/auth0/). You can use existing credentials or create a new account, with the option to use **Google** or **Facebook** for login.
 
 
 ## 🤝 Contribution
