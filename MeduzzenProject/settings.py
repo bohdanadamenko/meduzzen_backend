@@ -141,7 +141,7 @@ LOGGING = {
     },
     'loggers': {
         'api.views': {
-            'handlers': ['db'],
+            'handlers': ['db', 'console'],
             'level': 'INFO',
             'propagate': False,
         },
@@ -213,22 +213,48 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.auth0.Auth0OAuth2',
+    'django.contrib.auth.backends.ModelBackend'
 ]
 
 # Auth0 Settings
+AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')  # Используйте 'AUTH0_DOMAIN', а не 'AAUTH0_DOMAIN'
+AUTH0_CLIENT_ID = os.getenv('AUTH0_CLIENT_ID')
+AUTH0_CLIENT_SECRET = os.getenv('AUTH0_CLIENT_SECRET')
+
 SOCIAL_AUTH_AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')
 SOCIAL_AUTH_AUTH0_KEY = os.getenv('AUTH0_CLIENT_ID')
 SOCIAL_AUTH_AUTH0_SECRET = os.getenv('AUTH0_CLIENT_SECRET')
 SOCIAL_AUTH_AUTH0_SCOPE = ['openid', 'profile', 'email']
 
+# Email Settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # 'smtp.gmail.com' для Gmail
+EMAIL_PORT = 587  # 587 используется для отправки через TLS, 465 для SSL, и 25 для нешифрованных соединений
+EMAIL_USE_TLS = True  # Использовать TLS. Используйте EMAIL_USE_SSL = True, если вы хотите использовать SSL.
+EMAIL_USE_SSL = False  # Не использовать SSL
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Ваш email адрес
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD') # Пароль от вашего email
+DEFAULT_FROM_EMAIL = 'internship@meduzzen.com'  # Email, который будет отображаться в поле "От" в отправленных письмах
+
+
 
 DJOSER = {
     'SERIALIZERS': {
         'user_create': 'api.serializers.UserSerializer'
-        },
-    'LOGIN_FIELD': 'username',
+    },
     'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:8000/auth/complete/auth0/'],
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,  # Пользователь должен ввести новый пароль дважды
+    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,  # Показывать, если электронная почта не найдена
+    'SEND_PASSWORD_RESET_EMAIL': True,  # Отправлять электронное письмо для сброса пароля
+    'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_RETYPE': True,  # Пользователь должен ввести новое имя пользователя дважды
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,  # Отправлять электронное письмо для подтверждения изменения имени пользователя
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
 }
+
+
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),

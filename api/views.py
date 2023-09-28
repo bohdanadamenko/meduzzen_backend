@@ -1,10 +1,11 @@
 import logging
 from django.shortcuts import render
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, permissions
 from rest_framework.response import Response
 from Quizzes.models import CustomUser
 from .serializers import UserSerializer
 from django.http import Http404
+from .permissions import IsOwnerOrAdmin
 
 
 logger = logging.getLogger(__name__)
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 class UserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all().order_by('-created_at')
     serializer_class = UserSerializer
-
+    permission_classes = [IsOwnerOrAdmin]
     def create(self, request, *args, **kwargs):
         try:
             response = super().create(request, *args, **kwargs)
