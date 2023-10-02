@@ -14,7 +14,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 import redis
-
+from datetime import timedelta
 
 REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PORT = os.getenv('REDIS_PORT')
@@ -48,8 +48,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
+    'rest_framework.authtoken',
     'djoser',
+    'social_django',
+
     'Quizzes',
     'api',
 ]
@@ -137,7 +141,7 @@ LOGGING = {
     },
     'loggers': {
         'api.views': {
-            'handlers': ['db'],
+            'handlers': ['db', 'console'],
             'level': 'INFO',
             'propagate': False,
         },
@@ -200,4 +204,81 @@ REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
 }
+
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.auth0.Auth0OAuth2',
+    'django.contrib.auth.backends.ModelBackend'
+]
+
+# Auth0 Settings
+AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')  # Используйте 'AUTH0_DOMAIN', а не 'AAUTH0_DOMAIN'
+AUTH0_CLIENT_ID = os.getenv('AUTH0_CLIENT_ID')
+AUTH0_CLIENT_SECRET = os.getenv('AUTH0_CLIENT_SECRET')
+
+SOCIAL_AUTH_AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')
+SOCIAL_AUTH_AUTH0_KEY = os.getenv('AUTH0_CLIENT_ID')
+SOCIAL_AUTH_AUTH0_SECRET = os.getenv('AUTH0_CLIENT_SECRET')
+SOCIAL_AUTH_AUTH0_SCOPE = ['openid', 'profile', 'email']
+
+# Email Settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # 'smtp.gmail.com' для Gmail
+EMAIL_PORT = 587  # 587 используется для отправки через TLS, 465 для SSL, и 25 для нешифрованных соединений
+EMAIL_USE_TLS = True  # Использовать TLS. Используйте EMAIL_USE_SSL = True, если вы хотите использовать SSL.
+EMAIL_USE_SSL = False  # Не использовать SSL
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Ваш email адрес
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD') # Пароль от вашего email
+DEFAULT_FROM_EMAIL = 'internship@meduzzen.com'  # Email, который будет отображаться в поле "От" в отправленных письмах
+
+
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'api.serializers.UserSerializer'
+    },
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:8000/auth/complete/auth0/'],
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,  # Пользователь должен ввести новый пароль дважды
+    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,  # Показывать, если электронная почта не найдена
+    'SEND_PASSWORD_RESET_EMAIL': True,  # Отправлять электронное письмо для сброса пароля
+    'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_RETYPE': True,  # Пользователь должен ввести новое имя пользователя дважды
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,  # Отправлять электронное письмо для подтверждения изменения имени пользователя
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+}
+
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+}
+
