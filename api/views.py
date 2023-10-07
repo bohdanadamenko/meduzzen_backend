@@ -10,6 +10,8 @@ from .permissions import IsOwnerOrAdmin
 
 
 logger = logging.getLogger(__name__)
+from pydantic import BaseModel, ValidationError
+from pydantic import ValidationError
 
 class CustomUserPydantic(BaseModel):
     username: str
@@ -19,6 +21,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all().order_by('-created_at')
     serializer_class = UserSerializer
     permission_classes = [IsOwnerOrAdmin]
+
     def create(self, request, *args, **kwargs):
         try:
             user_data = CustomUserPydantic(**request.data)
@@ -27,9 +30,12 @@ class UserViewSet(viewsets.ModelViewSet):
                 logger.info(f"User created: {response.data}")
             return response
         except ValidationError as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            error_messages = e.errors()  # Extract error messages from the ValidationError
+            return Response({'error': 'Invalid input', 'details': error_messages}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 
     def retrieve(self, request, *args, **kwargs):
         try:
