@@ -75,13 +75,64 @@ Inside Docker container:
 ## 🗄 Logging
 
 Logging is set up to output messages to the console, with a logging level of `DEBUG` for development purposes. Please refer to the `settings.py` for detailed logging configurations.
+
 **NOTE:** Messages of `WARNING` level and above are additionally recorded to `warning.log` located in the `/logs/` directory.
 
-## 🔑 Login / Registration
+## 🔑 Auth0 Login / Registration
 
-Log in or register [here](http://localhost:8000/auth/login/auth0/). You can use existing credentials or create a new account, with the option to use **Google** or **Facebook** for login.
+Log in or register http://localhost:8000/auth/login/auth0/ You can use existing credentials or create a new account, with the option to use **Google** or **Facebook** for login.
 
+## ℹ️ API Usage
 
+### 🧑‍💻 User Registration
+
+To register a new user, use the following `curl` command:
+
+```sh
+curl -X POST http://localhost:8000/api/users/ \
+-H "Content-Type: application/json" \
+-d '{"username": "new_user", "password": "new_password", "email": "new_user@example.com"}'
+```
+### 🔒 User Login
+To login a user and receive an authentication token, use the following curl command:
+```sh 
+curl -X POST http://localhost:8000/auth/token/login/ \
+-H "Content-Type: application/json" \
+-d '{"username": "exampleuser", "password": "examplepassword"}'
+```
+
+### 🚪 User Logout
+To logout a user and invalidate the user's token, use the following curl command:
+```sh 
+curl -X POST http://localhost:8000/auth/token/logout/ \
+-H "Content-Type: application/json" \
+-H "Authorization: Token YOUR_TOKEN"
+```
+Replace YOUR_TOKEN with the actual token of the user you want to log out.
+
+### 🔄 Password and Username Reset
+To reset a user's password, use the following curl command:
+```sh
+curl -X POST http://localhost:8000/auth/users/reset_password/ \
+-H "Content-Type: application/json" \
+-d '{"email": "example@email.com"}'
+```
+To reset a user's username, use the following curl command:
+```sh
+curl -X POST http://localhost:8000/auth/users/reset_username/ \
+-H "Content-Type: application/json" \
+-d '{"email": "example@email.com"}'
+
+```
+
+### 📧 Email Activation
+To activate a user, use the following curl command:
+```sh
+curl -X POST http://localhost:8000/auth/users/activation/ \
+-H "Content-Type: application/json" \
+-d '{"uid": "UID", "token": "TOKEN"}'
+```
+Replace UID with the user's UID and TOKEN with the actual token received in the email.
 ## 🤝 Contribution
 
 This project is solely for the internship purpose. However, feedback and suggestions are always welcome.

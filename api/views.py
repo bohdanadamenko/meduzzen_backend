@@ -1,6 +1,7 @@
 import logging
-from django.shortcuts import render
-from rest_framework import viewsets, status, permissions
+from pydantic import ValidationError
+from pydantic import BaseModel
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from Quizzes.models import CustomUser
 from .serializers import UserSerializer
@@ -10,6 +11,9 @@ from .permissions import IsOwnerOrAdmin
 
 logger = logging.getLogger(__name__)
 
+class CustomUserPydantic(BaseModel):
+    username: str
+    password: str
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all().order_by('-created_at')
@@ -17,10 +21,13 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsOwnerOrAdmin]
     def create(self, request, *args, **kwargs):
         try:
+            user_data = CustomUserPydantic(**request.data)
             response = super().create(request, *args, **kwargs)
             if response.status_code == status.HTTP_201_CREATED:
                 logger.info(f"User created: {response.data}")
             return response
+        except ValidationError as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
