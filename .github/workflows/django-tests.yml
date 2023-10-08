@@ -46,10 +46,6 @@ jobs:
             sleep 1
           done
 
-      - name: Check PostgreSQL logs
-        if: always()
-        run: docker logs ${{ secrets.POSTGRES_HOST }}
-
       - name: Run tests
         run: python manage.py test
         env:
