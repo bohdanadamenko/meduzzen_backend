@@ -20,6 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Create logs directory
+        run: mkdir -p logs
+
       - name: Create .env file
         run: |
           cat <<EOL >> .env
