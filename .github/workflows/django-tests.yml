@@ -63,10 +63,6 @@ jobs:
             sleep 1
           done
 
-      - name: Check PostgreSQL logs
-        if: always()
-        run: docker logs db
-
       - name: Run tests
         run: python manage.py test
         env:
