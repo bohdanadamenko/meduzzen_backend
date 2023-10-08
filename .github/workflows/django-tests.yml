@@ -6,20 +6,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      db:
-        image: postgres:16
-        env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_HOST: db
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set up Docker Compose
+        run: |
+          docker-compose up -d
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -35,6 +27,7 @@ jobs:
       - name: Run Linter
         run: |
           ruff check .
+
       - name: Create logs directory
         run: mkdir -p logs
 
@@ -47,7 +40,7 @@ jobs:
 
       - name: Run tests
         run: |
-          python manage.py test
+          docker-compose exec django python manage.py test
         env:
           AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
           AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
