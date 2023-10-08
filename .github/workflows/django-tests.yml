@@ -38,6 +38,13 @@ jobs:
       - name: Create logs directory
         run: mkdir -p logs
 
+      - name: Wait for services to be ready
+        run: sleep 10
+
+      - name: Check PostgreSQL logs
+        if: always()
+        run: docker logs db
+
       - name: Run tests
         run: |
           python manage.py test
