@@ -1,0 +1,16 @@
+[tool.ruff]
+line-length = 130
+exclude = ['migrations', 'venv', '__init__.py']
+
+select = [
+  "E",    # pycodestyle
+  "F",    # pyflakes
+  "I001", # isort
+  "DJ",   # flake8-django
+  "N",    # pep8-naming 
+]
+
+ignore = ["DJ001"]
+
+[tool.ruff.isort]
+section-order = ["future", "standard-library", "first-party", "local-folder", "third-party"]
