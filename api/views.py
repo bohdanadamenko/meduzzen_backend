@@ -1,6 +1,7 @@
 import logging
-from django.shortcuts import render
-from rest_framework import viewsets, status, permissions
+from pydantic import ValidationError
+from pydantic import BaseModel
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from Quizzes.models import CustomUser
 from .serializers import UserSerializer
@@ -9,20 +10,32 @@ from .permissions import IsOwnerOrAdmin
 
 
 logger = logging.getLogger(__name__)
+from pydantic import BaseModel, ValidationError
+from pydantic import ValidationError
 
+class CustomUserPydantic(BaseModel):
+    username: str
+    password: str
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all().order_by('-created_at')
     serializer_class = UserSerializer
     permission_classes = [IsOwnerOrAdmin]
+
     def create(self, request, *args, **kwargs):
         try:
+            user_data = CustomUserPydantic(**request.data)
             response = super().create(request, *args, **kwargs)
             if response.status_code == status.HTTP_201_CREATED:
                 logger.info(f"User created: {response.data}")
             return response
+        except ValidationError as e:
+            error_messages = e.errors()  # Extract error messages from the ValidationError
+            return Response({'error': 'Invalid input', 'details': error_messages}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 
     def retrieve(self, request, *args, **kwargs):
         try:

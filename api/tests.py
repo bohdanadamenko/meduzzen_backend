@@ -7,23 +7,23 @@ from .serializers import UserSerializer
 class CustomUserModelTest(TestCase):
     def test_create_user(self):
         # Test the creation of a user through the model
-        user = CustomUser.objects.create_user(username='testuser', password='testpassword')
+        user = CustomUser.objects.create_user(username='testuser', password='password')
         self.assertEqual(user.username, 'testuser')
 
 
 class UserSerializerTest(TestCase):
     def test_serialize_user(self):
         # Test the serialization of a user
-        user = CustomUser.objects.create_user(username='testuser', password='testpassword')
+        user = CustomUser.objects.create_user(username='user', password='password')
         serializer = UserSerializer(user)
-        self.assertEqual(serializer.data['username'], 'testuser')
+        self.assertEqual(serializer.data['username'], 'user')
 
 
 class UserViewSetTest(APITestCase):
     def setUp(self):
         # Set up the test client and create a superuser
         self.client = APIClient()
-        self.admin_user = CustomUser.objects.create_superuser(username='admin', email='admin@example.com', password='adminpassword')
+        self.admin_user = CustomUser.objects.create_superuser(username='admin', email='admin@example.com', password='password')
 
     def test_create_user_via_api(self):
         # Test the creation of a user through the API
@@ -50,7 +50,7 @@ class UserViewSetTest(APITestCase):
 
     def test_destroy_user(self):
         # Test deleting a user through the API
-        user = CustomUser.objects.create_user(username='testuser', password='testpassword')
+        user = CustomUser.objects.create_user(username='test', password='password')
         self.client.force_authenticate(user=self.admin_user)
         response = self.client.delete(f'/api/users/{user.id}/')
         self.assertEqual(response.status_code, 204)

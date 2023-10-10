@@ -217,7 +217,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Auth0 Settings
-AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')  # Используйте 'AUTH0_DOMAIN', а не 'AAUTH0_DOMAIN'
+AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')
 AUTH0_CLIENT_ID = os.getenv('AUTH0_CLIENT_ID')
 AUTH0_CLIENT_SECRET = os.getenv('AUTH0_CLIENT_SECRET')
 
@@ -229,7 +229,7 @@ SOCIAL_AUTH_AUTH0_SCOPE = ['openid', 'profile', 'email']
 # Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # 'smtp.gmail.com' для Gmail
-EMAIL_PORT = 587  # 587 используется для отправки через TLS, 465 для SSL, и 25 для нешифрованных соединений
+EMAIL_PORT = 587  # 587  для отправки через TLS, 465 для SSL, и 25 для нешифрованных соединений
 EMAIL_USE_TLS = True  # Использовать TLS. Используйте EMAIL_USE_SSL = True, если вы хотите использовать SSL.
 EMAIL_USE_SSL = False  # Не использовать SSL
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Ваш email адрес
