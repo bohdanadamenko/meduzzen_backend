@@ -1,7 +1,9 @@
-from django.test import TestCase
-from rest_framework.test import APITestCase, APIClient
 from Quizzes.models import CustomUser
+
 from .serializers import UserSerializer
+
+from django.test import TestCase
+from rest_framework.test import APIClient, APITestCase
 
 
 class CustomUserModelTest(TestCase):
