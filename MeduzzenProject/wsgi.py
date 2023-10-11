@@ -1,5 +1,4 @@
-"""
-WSGI config for MeduzzenProject project.
+"""WSGI config for MeduzzenProject project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

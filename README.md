@@ -89,7 +89,7 @@ Log in or register http://localhost:8000/auth/login/auth0/ You can use existing 
 To register a new user, use the following `curl` command:
 
 ```sh
-curl -X POST http://localhost:8000/api/users/ \
+curl -X POST http://localhost:8000/auth/token/users/ \
 -H "Content-Type: application/json" \
 -d '{"username": "new_user", "password": "new_password", "email": "new_user@example.com"}'
 ```
@@ -133,6 +133,60 @@ curl -X POST http://localhost:8000/auth/users/activation/ \
 -d '{"uid": "UID", "token": "TOKEN"}'
 ```
 Replace UID with the user's UID and TOKEN with the actual token received in the email.
+
+# 🏢 Company Management API
+
+This section of the API allows users to perform CRUD operations on companies. Below are the endpoints available and how to interact with them.
+
+## 🌐 Endpoints
+
+- `POST /companies/`: Create a new company.
+- `GET /companies/`: Retrieve a list of all companies.
+- `GET /companies/<int:pk>/`: Retrieve the details of a specific company.
+- `PATCH /companies/<int:pk>/`: Update a specific company's information.
+- `DELETE /companies/<int:pk>/`: Delete a specific company.
+
+## Usage
+
+### ➕ Creating a Company
+
+To create a new company, send a POST request with the required data.
+
+```sh
+curl -X POST -H "Authorization: Token <your_token>" -H "Content-Type: application/json" -d '{"name": "Company Name", "description": "Company Description"}' http://localhost:8000/companies/create/
+```
+
+### 🔍 Retrieving Companies
+To retrieve all companies, send a GET request.
+
+```sh
+curl -X GET -H "Authorization: Token <your_token>" http://localhost:8000/companies/
+```
+To retrieve a specific company, include the company's ID in the request.
+
+
+```
+curl -X GET -H "Authorization: Token <your_token>" http://localhost:8000/companies/<company_id>/
+```
+### ✏️ Updating a Company
+To update a company's information, send a PATCH request with the updated data.
+
+```
+curl -X PATCH -H "Authorization: Token <your_token>" -H "Content-Type: application/json" -d '{"name": "New Company Name"}' http://localhost:8000/companies/<company_id>/
+```
+
+### ❌ Deleting a Company
+To delete a company, send a DELETE request.
+
+```
+curl -X DELETE -H "Authorization: Token <your_token>" http://localhost:8000/companies/<company_id>/
+```
+### 👀 Company Visibility
+By default, new companies are visible to all. To hide your company, set the 'is_visible' parameter to false:
+```
+curl -X PATCH -H "Authorization: Token <your_token>" -H "Content-Type: application/json" -d '{"is_visible":false}' http://localhost:8000/companies/<company_id>/
+```
+
 ## 🤝 Contribution
 
 This project is solely for the internship purpose. However, feedback and suggestions are always welcome.

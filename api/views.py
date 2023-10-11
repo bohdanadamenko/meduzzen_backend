@@ -1,13 +1,14 @@
 import logging
-from rest_framework import viewsets, status
-from rest_framework.response import Response
+
 from Quizzes.models import CustomUser
-from .serializers import UserSerializer
-from django.http import Http404
+
 from .permissions import IsOwnerOrAdmin
+from .serializers import UserSerializer
+
+from django.http import Http404
 from pydantic import BaseModel, ValidationError
-
-
+from rest_framework import status, viewsets
+from rest_framework.response import Response
 
 logger = logging.getLogger(__name__)
 

@@ -1,5 +1,4 @@
-"""
-ASGI config for MeduzzenProject project.
+"""ASGI config for MeduzzenProject project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
