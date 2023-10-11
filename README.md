@@ -140,7 +140,7 @@ This section of the API allows users to perform CRUD operations on companies. Be
 
 ## 🌐 Endpoints
 
-- `POST /companies/`: Create a new company.
+- `POST /companies/create/`: Create a new company.
 - `GET /companies/`: Retrieve a list of all companies.
 - `GET /companies/<int:pk>/`: Retrieve the details of a specific company.
 - `PATCH /companies/<int:pk>/`: Update a specific company's information.
@@ -153,7 +153,7 @@ This section of the API allows users to perform CRUD operations on companies. Be
 To create a new company, send a POST request with the required data.
 
 ```sh
-curl -X POST -H "Authorization: Token <your_token>" -H "Content-Type: application/json" -d '{"name": "Company Name", "description": "Company Description"}' http://localhost:8000/companies/
+curl -X POST -H "Authorization: Token <your_token>" -H "Content-Type: application/json" -d '{"name": "Company Name", "description": "Company Description"}' http://localhost:8000/companies/create/
 ```
 
 ### 🔍 Retrieving Companies

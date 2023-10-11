@@ -27,7 +27,7 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
     # Endpoints for social authentication
     path('auth/', include('social_django.urls', namespace='social')),
-    # # Retrieve a list of companies
+    # Retrieve a list of companies
     path('companies/', CompanyListView.as_view(), name='list-companies'),
     # Create a new company
     path('companies/create/', CompanyCreateView.as_view(), name='create-company'),
