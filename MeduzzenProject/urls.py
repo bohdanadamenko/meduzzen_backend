@@ -27,10 +27,10 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
     # Endpoints for social authentication
     path('auth/', include('social_django.urls', namespace='social')),
-    # Retrieve a list of companies
+    # Retrieve a list of companies (GET)
     path('companies/', CompanyListView.as_view(), name='list-companies'),
-    # Create a new company
-    path('companies/create/', CompanyCreateView.as_view(), name='create-company'),
+    # Create a new company (POST)
+    path('companies/', CompanyCreateView.as_view(), name='create-company'),
     # Manage a specific company (retrieve, update, delete)
     path('companies/<int:pk>/', CompanyManageView.as_view(), name='detail-company'),
 ]

@@ -140,7 +140,7 @@ This section of the API allows users to perform CRUD operations on companies. Be
 
 ## 🌐 Endpoints
 
-- `POST /companies/create/`: Create a new company.
+- `POST /companies/`: Create a new company.
 - `GET /companies/`: Retrieve a list of all companies.
 - `GET /companies/<int:pk>/`: Retrieve the details of a specific company.
 - `PATCH /companies/<int:pk>/`: Update a specific company's information.

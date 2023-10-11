@@ -229,17 +229,15 @@ SOCIAL_AUTH_AUTH0_SCOPE = ['openid', 'profile', 'email']
 
 # Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # 'smtp.gmail.com' для Gmail
-# 587  для отправки через TLS, 465 для SSL, и 25 для нешифрованных соединений
+EMAIL_HOST = 'smtp.gmail.com'  # 'smtp.gmail.com' for Gmail
+# 587 for sending through TLS, 465 for SSL, and 25 for unencrypted connections
 EMAIL_PORT = 587
-# Использовать TLS. Используйте EMAIL_USE_SSL = True, если вы хотите использовать SSL.
+# Use TLS. Use EMAIL_USE_SSL = True if you want to use SSL.
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False  # Не использовать SSL
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Ваш email адрес
+EMAIL_USE_SSL = False  # Do not use SSL
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv(
-    'EMAIL_HOST_PASSWORD')  # Пароль от вашего email
-# Email, который будет отображаться в поле "От" в отправленных письмах
-DEFAULT_FROM_EMAIL = 'internship@meduzzen.com'
+    'EMAIL_HOST_PASSWORD')
 
 
 DJOSER = {
@@ -248,21 +246,20 @@ DJOSER = {
     },
     'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:8000/auth/complete/auth0/'],
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    # Пользователь должен ввести новый пароль дважды
+    # User must enter the new password twice
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
-    # Показывать, если электронная почта не найдена
+    # Show if the email is not found
     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
-    # Отправлять электронное письмо для сброса пароля
+    # Send password reset email
     'SEND_PASSWORD_RESET_EMAIL': True,
     'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
-    # Пользователь должен ввести новое имя пользователя дважды
+    # User must enter the new username twice
     'USERNAME_RESET_CONFIRM_RETYPE': True,
-    # Отправлять электронное письмо для подтверждения изменения имени пользователя
+    # Send email confirmation for username change
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
 }
-
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
